@@ -12,6 +12,9 @@ const BlogSchema: Schema = new Schema<IBlog>(
       ref: "User",
       required: true,
     },
+    category: { type: String, required: false }, // Optional category
+    link: { type: String, required: false }, // Optional link
+    image: { type: String, required: false }, // Optional image URL
   },
   {
     timestamps: true,

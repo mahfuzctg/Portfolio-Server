@@ -2,7 +2,11 @@
 import { Request, Response } from "express";
 import * as BlogService from "./blog.service";
 
-export const createBlog = async (req: Request, res: Response) => {
+// Ensure each function returns Promise<void>
+export const createBlog = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   const { title, content } = req.body;
   const author = req.user.id; // Authenticated user ID
 
@@ -14,7 +18,7 @@ export const createBlog = async (req: Request, res: Response) => {
   }
 };
 
-export const getBlogs = async (req: Request, res: Response) => {
+export const getBlogs = async (req: Request, res: Response): Promise<void> => {
   const author = req.user.id;
 
   try {
@@ -25,7 +29,7 @@ export const getBlogs = async (req: Request, res: Response) => {
   }
 };
 
-export const getBlog = async (req: Request, res: Response) => {
+export const getBlog = async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params;
   const author = req.user.id;
 
@@ -42,7 +46,10 @@ export const getBlog = async (req: Request, res: Response) => {
   }
 };
 
-export const updateBlog = async (req: Request, res: Response) => {
+export const updateBlog = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   const { id } = req.params;
   const author = req.user.id;
   const data = req.body;
@@ -60,7 +67,10 @@ export const updateBlog = async (req: Request, res: Response) => {
   }
 };
 
-export const deleteBlog = async (req: Request, res: Response) => {
+export const deleteBlog = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   const { id } = req.params;
   const author = req.user.id;
 

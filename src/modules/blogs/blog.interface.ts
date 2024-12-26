@@ -3,6 +3,9 @@ export interface IBlog {
   title: string;
   content: string;
   author: string; // User ID
+  category?: string; // Optional category
+  link?: string; // Optional link to the blog
+  image?: string; // Optional image URL
   createdAt?: Date;
   updatedAt?: Date;
 }
