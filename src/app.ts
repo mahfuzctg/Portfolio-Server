@@ -1,12 +1,13 @@
 import cors from "cors";
 import express from "express";
+
 import globalErrorHandler from "./middlewares/globalErrorHandler";
 import router from "./routes";
 
 const app = express();
 
 // Define allowed origins
-const allowedOrigins = ["https://tricks-hub-client.vercel.app"];
+const allowedOrigins = ["http://localhost:5173"];
 
 // Set up CORS to check against allowed origins
 app.use(
@@ -30,7 +31,7 @@ app.use(express.json());
 app.use("/api", router);
 
 app.get("/", (req, res) => {
-  res.send("Welcome to tricks hub server!😄💖");
+  res.send("Welcome to my portfolio server!😄💖");
 });
 
 // Global error handler
