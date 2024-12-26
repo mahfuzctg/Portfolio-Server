@@ -1,19 +1,9 @@
-export type TUser = {
+export interface IUser {
   _id?: string;
-  name: string;
-  password?: string;
   email: string;
-  role: string;
-  image: string;
-  coverImg?: string;
-  memberShip: null | {
-    takenDate: string;
-    exp: string;
-    package: object;
-  };
-  followers?: string[];
-  following?: string[];
-  iat?: number;
-  exp?: number;
-  isBlocked?: boolean;
-};
+  password: string;
+}
+
+export interface IUserDocument extends IUser {
+  comparePassword(candidatePassword: string): Promise<boolean>;
+}

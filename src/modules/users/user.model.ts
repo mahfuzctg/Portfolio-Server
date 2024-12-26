@@ -1,43 +1,36 @@
-import { Schema, model } from "mongoose";
-import { TUser } from "./user.interface";
+import bcrypt from "bcryptjs";
+import mongoose, { Schema } from "mongoose";
+import { IUserDocument } from "./user.interface";
 
-const userSchema = new Schema<TUser>(
+const UserSchema = new Schema<IUserDocument>(
   {
-    name: {
-      type: String,
-      required: true,
-    },
     email: {
       type: String,
       required: true,
-    },
-    role: {
-      type: String,
-      required: true,
-      enum: ["user", "admin"],
+      unique: true,
+      lowercase: true,
+      trim: true,
     },
     password: {
       type: String,
-    },
-    followers: [{ type: Schema.Types.ObjectId, ref: "User" }],
-    following: [{ type: Schema.Types.ObjectId, ref: "User" }],
-    memberShip: {
-      type: Schema.Types.Mixed,
-      default: null,
-    },
-    image: {
-      type: String,
       required: true,
-    },
-    coverImg: {
-      type: String,
-    },
-    isBlocked: {
-      type: Boolean,
-      default: false,
     },
   },
   { timestamps: true }
 );
 
-export const User = model<TUser>("User", userSchema);
+UserSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
+
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+  next();
+});
+
+UserSchema.methods.comparePassword = async function (
+  candidatePassword: string
+): Promise<boolean> {
+  return bcrypt.compare(candidatePassword, this.password);
+};
+
+export const UserModel = mongoose.model<IUserDocument>("User", UserSchema);

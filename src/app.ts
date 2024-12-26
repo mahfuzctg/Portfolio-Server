@@ -18,6 +18,7 @@ app.use(
       if (allowedOrigins.includes(origin)) {
         return callback(null, true);
       } else {
+        console.error("Blocked by CORS:", origin);
         return callback(new Error("Not allowed by CORS"));
       }
     },
@@ -27,22 +28,24 @@ app.use(
 // Use JSON body parser
 app.use(express.json());
 
-// Use router
-app.use("/api", router);
-
+// Health check route
 app.get("/", (req, res) => {
   res.send("Welcome to my portfolio server!😄💖");
 });
 
-// Global error handler
-app.use(globalErrorHandler);
+// Use router for API routes
+app.use("/api", router);
 
+// Catch-all route for 404 errors
 app.all("*", (req, res) => {
   res.status(404).json({
     success: false,
-    statuscode: 404,
+    statusCode: 404,
     message: "Not found",
   });
 });
+
+// Global error handler
+app.use(globalErrorHandler);
 
 export default app;
