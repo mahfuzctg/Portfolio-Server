@@ -14,11 +14,17 @@ const BlogSchema: Schema = new Schema<IBlog>(
     },
     category: { type: String, required: false }, // Optional category
     link: { type: String, required: false }, // Optional link
-    image: { type: String, required: false }, // Optional image URL
+    image: { type: String, required: false }, // Optional blog image URL
+    profileImage: { type: String, required: false }, // Optional profile image URL
   },
   {
     timestamps: true,
   }
 );
+
+// Middleware to populate the profile image when the blog is fetched
+BlogSchema.pre("findOne", async function () {
+  this.populate("author", "profileImage"); // Only get the profileImage field from User
+});
 
 export const Blog = mongoose.model<BlogDocument>("Blog", BlogSchema);

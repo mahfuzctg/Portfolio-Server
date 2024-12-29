@@ -7,22 +7,33 @@ export const createBlog = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  const { title, content } = req.body;
-  const author = req.user.id; // Authenticated user ID
+  const { title, content, category, link, image, profileImage } = req.body;
+  const author = req.user.id; // Get the authenticated user ID
 
   try {
-    const blog = await BlogService.createBlog({ title, content, author });
-    res.status(201).json({ success: true, data: blog });
+    const newBlog = await BlogService.createBlog({
+      title,
+      content,
+      category,
+      link,
+      image,
+      author,
+      profileImage,
+    });
+
+    // Return all fields in the response
+    res.status(201).json({
+      success: true,
+      data: newBlog,
+    });
   } catch (err) {
     res.status(500).json({ success: false, message: "Failed to create blog" });
   }
 };
-
 export const getBlogs = async (req: Request, res: Response): Promise<void> => {
-  const author = req.user.id;
-
+  // If you want to make it open, remove author and return all blogs
   try {
-    const blogs = await BlogService.getUserBlogs(author);
+    const blogs = await BlogService.getAllBlogs(); // Fetch all blogs
     res.status(200).json({ success: true, data: blogs });
   } catch (err) {
     res.status(500).json({ success: false, message: "Failed to fetch blogs" });
@@ -31,10 +42,9 @@ export const getBlogs = async (req: Request, res: Response): Promise<void> => {
 
 export const getBlog = async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params;
-  const author = req.user.id;
 
   try {
-    const blog = await BlogService.getBlogById(id, author);
+    const blog = await BlogService.getBlogById(id); // Fetch blog by ID without author check
     if (!blog) {
       return res
         .status(404)
@@ -51,7 +61,7 @@ export const updateBlog = async (
   res: Response
 ): Promise<void> => {
   const { id } = req.params;
-  const author = req.user.id;
+  const author = req.user.id; // Get the authenticated user ID
   const data = req.body;
 
   try {
@@ -72,7 +82,7 @@ export const deleteBlog = async (
   res: Response
 ): Promise<void> => {
   const { id } = req.params;
-  const author = req.user.id;
+  const author = req.user.id; // Get the authenticated user ID
 
   try {
     const deletedBlog = await BlogService.deleteBlog(id, author);

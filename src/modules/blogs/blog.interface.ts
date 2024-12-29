@@ -5,7 +5,8 @@ export interface IBlog {
   author: string; // User ID
   category?: string; // Optional category
   link?: string; // Optional link to the blog
-  image?: string; // Optional image URL
+  image?: string; // Optional blog image URL
+  profileImage?: string; // Optional profile image URL for the author
   createdAt?: Date;
   updatedAt?: Date;
 }
