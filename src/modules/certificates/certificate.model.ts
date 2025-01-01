@@ -1,7 +1,7 @@
 import mongoose, { Document, Schema } from "mongoose";
 
+// Interface for certificate data (without _id field)
 export interface ICertificate {
-  _id?: string;
   title: string;
   issuedBy: string;
   issuedTo: string;
@@ -11,7 +11,8 @@ export interface ICertificate {
   link: string;
 }
 
-interface CertificateDocument extends ICertificate, Document {}
+// Certificate document extends both the ICertificate interface and Mongoose Document
+interface CertificateDocument extends Document, ICertificate {}
 
 const CertificateSchema: Schema = new Schema<ICertificate>(
   {

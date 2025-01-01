@@ -1,20 +1,25 @@
 {
   "env": {
     "node": true,
-    "es2021": true
+    "es2021": true // You can also use "latest" for the newest features
   },
   "extends": [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "prettier"
+    "eslint:recommended", // Recommended ESLint rules
+    "plugin:@typescript-eslint/recommended", // TypeScript-specific recommended rules
+    "prettier", // Ensures Prettier rules are followed
+    "plugin:prettier/recommended" // Makes sure Prettier rules work seamlessly with ESLint
   ],
-  "parser": "@typescript-eslint/parser",
+  "parser": "@typescript-eslint/parser", // Use TypeScript parser
   "parserOptions": {
-    "ecmaVersion": 12,
-    "sourceType": "module"
+    "ecmaVersion": 2021, // Use the latest ECMAScript features
+    "sourceType": "module" // This should be set to "module" for ES imports/exports
   },
-  "plugins": ["@typescript-eslint", "prettier"],
+  "plugins": ["@typescript-eslint", "prettier"], // ESLint plugins for TypeScript and Prettier
   "rules": {
-    "prettier/prettier": "error"
+    "prettier/prettier": "error", // Make Prettier errors show as ESLint errors
+    "@typescript-eslint/no-unused-vars": "warn", // Warn about unused variables in TypeScript
+    "@typescript-eslint/explicit-module-boundary-types": "off", // You can disable this if you don't want to enforce types for functions and methods in TS
+    "@typescript-eslint/no-explicit-any": "warn", // Warn about usage of `any` type
+    "@typescript-eslint/consistent-type-imports": "warn" // Encourage consistent type imports
   }
 }

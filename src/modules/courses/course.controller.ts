@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Request, Response } from "express";
 import { Course } from "./courses.model";
 
@@ -17,6 +16,7 @@ export const createCourse = async (
       link,
       certificate,
     } = req.body;
+
     if (!title || !description) {
       return res
         .status(400)
@@ -30,12 +30,12 @@ export const createCourse = async (
       instructor,
       image,
       link,
-      certificate, // Optional field
+      certificate,
     });
-
     await newCourse.save();
     return res.status(201).json(newCourse);
   } catch (error) {
+    console.error("Error creating course entry:", error);
     return res.status(500).json({ error: "Error creating course entry" });
   }
 };
@@ -49,6 +49,7 @@ export const getCourses = async (
     const courses = await Course.find();
     return res.status(200).json(courses);
   } catch (error) {
+    console.error("Error fetching course entries:", error);
     return res.status(500).json({ error: "Error fetching course entries" });
   }
 };
@@ -65,6 +66,7 @@ export const getCourse = async (
     }
     return res.status(200).json(course);
   } catch (error) {
+    console.error("Error fetching course entry:", error);
     return res.status(500).json({ error: "Error fetching course entry" });
   }
 };
@@ -76,8 +78,6 @@ export const updateCourse = async (
 ): Promise<Response> => {
   try {
     const { title, description } = req.body;
-
-    // Validate required fields for update
     if (!title || !description) {
       return res
         .status(400)
@@ -89,13 +89,13 @@ export const updateCourse = async (
       { ...req.body },
       { new: true, runValidators: true }
     );
-
     if (!updatedCourse) {
       return res.status(404).json({ error: "Course not found" });
     }
 
     return res.status(200).json(updatedCourse);
   } catch (error) {
+    console.error("Error updating course entry:", error);
     return res.status(500).json({ error: "Error updating course entry" });
   }
 };
@@ -112,6 +112,7 @@ export const deleteCourse = async (
     }
     return res.status(200).json({ message: "Course deleted successfully" });
   } catch (error) {
+    console.error("Error deleting course entry:", error);
     return res.status(500).json({ error: "Error deleting course entry" });
   }
 };

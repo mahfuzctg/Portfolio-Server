@@ -1,19 +1,20 @@
 import cors from "cors";
 import express from "express";
-
 import globalErrorHandler from "./middlewares/globalErrorHandler";
-import router from "./routes";
+import routes from "./routes";
 
 const app = express();
 
 // Define allowed origins
-const allowedOrigins = ["http://localhost:5173"];
-
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://my-portfolio-six-psi-51.vercel.app",
+];
+app.options("*", cors());
 // Set up CORS to check against allowed origins
 app.use(
   cors({
     origin: function (origin, callback) {
-      // Allow requests with no origin, like mobile apps or CURL requests
       if (!origin) return callback(null, true);
       if (allowedOrigins.includes(origin)) {
         return callback(null, true);
@@ -34,7 +35,7 @@ app.get("/", (req, res) => {
 });
 
 // Use router for API routes
-app.use("/api", router);
+app.use("/api", routes);
 
 // Catch-all route for 404 errors
 app.all("*", (req, res) => {

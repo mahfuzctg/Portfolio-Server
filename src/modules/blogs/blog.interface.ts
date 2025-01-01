@@ -1,8 +1,9 @@
+import mongoose from "mongoose";
+
 export interface IBlog {
-  _id?: string;
   title: string;
   content: string;
-  author: string; // User ID
+  author: mongoose.Types.ObjectId;
   category?: string; // Optional category
   link?: string; // Optional link to the blog
   image?: string; // Optional blog image URL
